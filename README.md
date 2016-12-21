@@ -54,14 +54,14 @@ this api have two urls paths:
 - http://127.0.0.1/api/transfer (POST)
 - http://127.0.0.1/api/api/history (POST)
 
-Sended body must have JSON format.
+Please format body as JSON.
 
 http://127.0.0.1/api/transfer for transaction actions.
 
 http://127.0.0.1/api/history get history of blockchain.
 ### Examples
 
-DONT FORGET ADD KEYS FOR USER WHICH START TRANSACTION. (cfg.js)
+DON'T FORGET TO ADD KEYS IN CFG.JS AS METIONED ABOVE (cfg.js)
 
 [Examles in browser](Examles_in_browser.md) 
  
