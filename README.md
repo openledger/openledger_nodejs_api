@@ -29,7 +29,7 @@ module.exports = {
 ### Installation
 This script for fast install (install nodejs, dependencies and run server on port :8080).
 ```sh
-$ git clone github
+$ git clone https://github.com/Da99er/openledger_nodejs_api
 $ cd openledger_nodejs_api
 $ chmod +x startshell.sh && ./startshell.sh
 ```
@@ -61,7 +61,7 @@ http://127.0.0.1/api/transfer for transaction actions.
 http://127.0.0.1/api/history get history of blockchain.
 ### Examples
 
-DON'T FORGET TO ADD KEYS IN CFG.JS AS METIONED ABOVE (cfg.js)
+DON'T FORGET TO ADD KEYS TO CFG.JS AS METIONED ABOVE (cfg.js)
 
 [Examles in browser](Examles_in_browser.md) 
  

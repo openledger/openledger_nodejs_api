@@ -2,7 +2,7 @@
 You can test this examples in browser, just copy example code and past in console after run server http://127.0.0.1:8090
 You can set custom port on web-server (default 8090)
 
-DON'T FORGET TO ADD KEYS IN CFG.JS AS METIONED ABOVE (cfg.js)
+DON'T FORGET TO ADD KEYS TO CFG.JS AS METIONED ABOVE (cfg.js)
 
 #### Transfer methods
 
