@@ -4,6 +4,7 @@
 /keys
 /thisgit
 /pubgit
+*.csv
 
 /libs/z_cryptolib.js
 /libs/z_private_keys.js

@@ -24,4 +24,9 @@ we have this history methods:
 
 ```sh
 $ curl -X POST 'http://127.0.0.1:8090/api/history' -H 'Content-Type: application/x-www-form-urlencoded; charset=utf-8'  --data-urlencode '{"account":"openledger","position":0,"type":"account_history"}'
+<<<<<<< HEAD
 ```
+=======
+```
+
+>>>>>>> 97bbe486cb8624be624fcbb1ada193975427b027
