@@ -27,9 +27,9 @@ module.exports = {
 ```
 
 ### Installation
-This script for fast install (install nodejs, dependencies and run server on port :8080).
+This script for fast install (install nodejs, dependencies and run server on port :8090).
 ```sh
-$ git clone https://github.com/Da99er/openledger_nodejs_api
+$ git clone https://github.com/openledger/openledger_nodejs_api
 $ cd openledger_nodejs_api
 $ chmod +x startshell.sh && ./startshell.sh
 ```
