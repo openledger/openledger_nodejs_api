@@ -52,7 +52,7 @@ module.exports = function(lib) {
 
         let symbols = promise_data[2];
 
-        console.log("~>", JSON.stringify(symbols[1]));
+        console.log("symbols~>", JSON.stringify(symbols[1]));
         lib.set_symbols(symbols);
         if (~symbols.indexOf(null)) throw new Error('incorrect currency');
         let getAccount = yield Promise.all([

@@ -7,17 +7,18 @@ const fs = require('fs');
 
 function CreateWebpackConfig(type) {
     let folder = (type == 'js' ? 'scripts' : 'assets');
-    let ext = (type == 'js' ? 'js' : 'css');
+    let ext = (type == 'js' && 'js' || type == 'scss' && 'css' || type == 'html' && 'html');
+
     this.entry = {
-        home: path.join(__dirname, folder, 'home')
+        index: path.join(__dirname, folder, 'index')
     };
-    
     //custom files input
     if (type == 'js') {
-        //this.entry['test'] = path.join(__dirname, folder, 'test');
         this.entry['pass'] = path.join(__dirname, folder, 'pass');
     } else if (type == 'scss') {
-        //this.entry['filename'] = path.join(__dirname,  folder, 'filename');
+        //this.entry['file1'] = path.join(__dirname, folder, 'file1');
+    } else if (type == 'html') {
+        //this.entry['file2'] = path.join(__dirname, folder, 'file2');
     }
 
     this.output = {
@@ -26,7 +27,7 @@ function CreateWebpackConfig(type) {
         publicPath: ''
     }; //publicPath !!
 
-    let outputfile = path.join(this.output.path,`home.${ext}`);
+    let outputfile = path.join(this.output.path, `index.${ext}`);
 
     this.resolve = {
         extensions: ['']
@@ -35,51 +36,66 @@ function CreateWebpackConfig(type) {
     this.resolve.extensions.push(`.${type}`);
 
     this.module = {
-        loaders: [{
-                test: /\.(jpe?g|png|gif|svg|ttf|eot|woff|woff2)$/i,
-                loader: (type == 'js' ? 'ignore-loader' : 'file?name=[path][name].[ext]')
-            }, {
-                test: /\.json/,
-                loader: "json"
-            },
-            (() => {
-                if (type == 'js') {
-                    return {
-                        test: /\.js$/,
-                        exclude: /(node_modules|bower_components)/,
-                        loader: 'babel',
-                        query: {
-                            presets: ["es2015", "stage-0"],
-                            plugins: ['transform-runtime']
-                        }
-                    };
-                } else if (type == 'scss') {
-                    return {
-                        test: /\.scss$/,
-                        loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true')
-                    };
-                }
-            })()
-        ]
+        loaders: []
     };
 
+    if (type == 'js') {
+
+        this.module.loaders.push({
+            test: /\.js$/,
+            exclude: /(node_modules|bower_components)/,
+            loader: 'babel',
+            query: {
+                presets: ["es2015", "stage-0"],
+                plugins: ['transform-runtime']
+            }
+        });
+        
+        this.module.loaders.push({
+            test: /\.json/,
+            loader: "json"
+        });
+
+    } else if (type == 'scss') {
+
+        this.module.loaders.push({
+            test: /\.scss$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?sourceMap!sass-loader?outputStyle=expanded&sourceMap=true&sourceMapContents=true')
+        });
+
+        this.module.loaders.push({
+            test: /\.(jpe?g|png|gif|svg|ttf|eot|woff|woff2)$/i,
+            loader: 'file?name=[path][name].[ext]'
+        });
+
+    } else if (type == 'html') {
+        
+        this.module.loaders.push({
+            test: /\.html$/,
+            loader: ExtractTextPlugin.extract('html?minimize=true')
+        });
+    }
+
     this.plugins = [
-        new ExtractTextPlugin('[name].css'),
         new webpack.DefinePlugin({
             NODE_ENV: JSON.stringify(NODE_ENV)
         }),
-        function(){
+        new webpack.NoErrorsPlugin(),
+        function() {
             this.plugin("done", function(stats) {
                 if (stats.compilation.errors && stats.compilation.errors.length) {
-                    console.log(stats.compilation.errors[0].error);                 
-                    if (fs.existsSync(outputfile)){
-                        fs.unlinkSync(outputfile);
+                    console.log(stats.compilation.errors[0].error);
+                    if (fs.existsSync(outputfile)) {
+                        fs.writeFileSync(outputfile, JSON.stringify(stats.compilation.errors[0].error.details), 'utf8');
                     }
                 }
-
             });
         }
     ];
+
+    if (type == 'scss' || type == 'html') {
+        this.plugins.push(new ExtractTextPlugin(`[name].${ext}`))
+    }
 
     this.devtool = (NODE_ENV == 'development' ? "inline-source-map" : '');
 
@@ -103,5 +119,6 @@ function CreateWebpackConfig(type) {
 
 module.exports = [
     new CreateWebpackConfig('js'),
-    new CreateWebpackConfig('scss')
+    new CreateWebpackConfig('scss'),
+    new CreateWebpackConfig('html')
 ];

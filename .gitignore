@@ -4,7 +4,6 @@
 /keys
 /thisgit
 /pubgit
-*.csv
 
 /libs/z_cryptolib.js
 /libs/z_private_keys.js
@@ -14,9 +13,5 @@
 /scripts
 /sql
 /cryptolib.js
-/frontend.js
-/index.html
-/login.html
-/test.html
-
+/voting_api.js
 #
