@@ -1,4 +1,5 @@
 module.exports = {
+    //wssapi: 'wss://bitshares.openledger.info/pay-transaction', 
     wssapi: 'wss://bitshares.openledger.info/ws',
     localhost: '127.0.0.1',
     private_keys: {
@@ -7,6 +8,3 @@ module.exports = {
         "name_of_user_3": 'SET YOUR WIF PRIVATE KEY HERE...'
     }
 };
-
-//RUN
-//node pay_api.js 8082
