@@ -67,11 +67,18 @@ module.exports = function(lib) {
                 let money, currency;
                 let amount_parsed = JSON.parse('{"a":1' + op_str.match(/,"amount":{"amount":"{0,1}\d+"{0,1},"asset_id":"[^"]+\"},/) + '"a":1}').amount;
 
+                let sendler = JSON.parse('{"a":1'+op_str.match(/\,\"from\":"\d+\.\d+\.\d+",\"to\":"\d+\.\d+\.\d+",/)+'"1":1}');
+
+                console.log(op_str)
+                console.log(sendler)
+
                 transaction_body.amount = {
                     converted: amount_parsed.amount / Math.pow(10, lib.currencies.ids[amount_parsed.asset_id].precision),
                     currency: lib.currencies.ids[amount_parsed.asset_id].name,
                     amount: amount_parsed.amount,
-                    assets_id: amount_parsed.asset_id
+                    assets_id: amount_parsed.asset_id,
+                    from:sendler.from,
+                    to:sendler.to
                 };
             } else if (type_op == 'limit_order_create') {
 
