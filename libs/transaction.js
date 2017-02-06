@@ -1,5 +1,5 @@
-const { Apis } = require("graphenejs-ws");
-const { Aes, FetchChain, PrivateKey, TransactionHelper, TransactionBuilder } = require("graphenejs-lib");
+const { Apis } = require("bitsharesjs-ws");
+const { Aes, FetchChain, PrivateKey, TransactionHelper, TransactionBuilder } = require("bitsharesjs");
 
 module.exports = function(lib) {
 

@@ -1,5 +1,5 @@
 'use strict';
-const { Apis } = require("graphenejs-ws");
+const { Apis } = require("bitsharesjs-ws");
 
 module.exports = function(lib) {
     lib.account_history = function*(payer) {

@@ -11,10 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bitsharesjs": "^1.0.2",
     "co": "^4.6.0",
     "colors": "^1.1.2",
-    "graphenejs-lib": "^0.4.10",
-    "graphenejs-ws": "^0.1.7",
     "mime": "^1.3.4",
     "mysql": "^2.12.0"
   },

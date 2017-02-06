@@ -1,5 +1,5 @@
 'use strict';
-const { Aes, PrivateKey, PublicKey, ChainTypes: { operations } } = require("graphenejs-lib");
+const { Aes, PrivateKey, PublicKey, ChainTypes: { operations } } = require("bitsharesjs");
 const operationsTypes = Object.keys(operations);
 
 module.exports = function(lib) {
