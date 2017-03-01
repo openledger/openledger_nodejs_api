@@ -38,7 +38,7 @@ server.on('request', function(req, res) {
         let parsed = yield * middlewares(req, res);
         if (req.method == "GET") {
             if (urlParsed.pathname == '/') {
-                res.end('open cosnole and Run script from example');
+                res.end('open console and Run script from example');
             } else {
                 res.statusCode = 404;
             }
