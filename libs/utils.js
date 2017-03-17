@@ -69,8 +69,8 @@ module.exports = function(lib) {
 
                 let sendler = JSON.parse('{"a":1'+op_str.match(/\,\"from\":"\d+\.\d+\.\d+",\"to\":"\d+\.\d+\.\d+",/)+'"1":1}');
 
-                console.log(op_str)
-                console.log(sendler)
+                //console.log(op_str)
+                //console.log(sendler)
 
                 transaction_body.amount = {
                     converted: amount_parsed.amount / Math.pow(10, lib.currencies.ids[amount_parsed.asset_id].precision),

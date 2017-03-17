@@ -4,8 +4,8 @@ const { Apis } = require("bitsharesjs-ws");
 module.exports = function(lib) {
     lib.account_history = function*(payer) {
         let users_ans = {};
-        let res = yield Apis.instance(lib.wssapi, true).init_promise;
-        console.log(res[0].network);
+        let connection = yield Apis.instance(lib.wssapi, true).init_promise;
+        console.log("connected to:", JSON.stringify(connection[0].network));
         let names = yield Apis.instance().db_api().exec("get_full_accounts", [
             [payer.account], false
         ]);
@@ -20,16 +20,16 @@ module.exports = function(lib) {
             acc[1].balances.map((e) => {
                 if (e.asset_type) {
                     let m = e.asset_type;
-                    lib.currencies.ids[e.asset_type] = {};
-                    balance[m] = balance[m] ? parseFloat(e.balance) : parseFloat(e.balance);
+                    lib.currencies.ids[m] = {};
+                    balance[m] = balance[m] ? parseInt(e.balance) : parseInt(e.balance);
                 }
-            });
+            });           
 
             acc[1].limit_orders.map((e) => {
-                if (e.asset_type) {
-                    let m = e.asset_type;
-                    lib.currencies.ids[e.asset_type] = {};
-                    balance[m] = balance[m] ? balance[m] + parseFloat(e.sell_price.base.amount) : parseFloat(e.sell_price.base.amount);
+                if (e.sell_price&&e.sell_price.base&&e.sell_price.base.asset_id) {
+                    let m = e.sell_price.base.asset_id;
+                    lib.currencies.ids[m] = {};
+                    balance[m] = balance[m] ? balance[m] + parseInt(e.for_sale) : parseInt(e.for_sale);
                 }
             });
 
@@ -104,7 +104,7 @@ module.exports = function(lib) {
             let real_orders = yield lib.check_orders(orders_all);
             real_orders = real_orders.filter(e => e).map(e => e.id);
 
-            console.log("real_orders", real_orders);
+            //console.log("real_orders", real_orders);
 
             for (let i1 in arr) {
                 for (let i2 in arr[i1]) {
