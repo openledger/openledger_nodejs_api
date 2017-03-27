@@ -22,6 +22,42 @@ module.exports = function(lib) {
         });
     };
 
+    lib.set_balances_orders = (accounts) => {   
+        let users_ans ={};
+        accounts.map((acc) => {
+            let balance = {};
+            let order = {};
+            let orderbalance = {};
+
+            acc[1].balances.map((e) => {
+                if (e.asset_type) {
+                    let m = e.asset_type;
+                    lib.currencies.ids[m] = {};
+                    balance[m] = balance[m] ? parseInt(e.balance) : parseInt(e.balance);
+                    orderbalance[m] = orderbalance[m] ? parseInt(e.balance) : parseInt(e.balance);
+                }
+            });
+
+
+            acc[1].limit_orders.map((e) => {
+                if (e.sell_price && e.sell_price.base && e.sell_price.base.asset_id) {
+                    let m = e.sell_price.base.asset_id;
+                    lib.currencies.ids[m] = {};
+                    order[m] = order[m] ? order[m] + parseInt(e.for_sale) : parseInt(e.for_sale);
+                    orderbalance[m] = orderbalance[m] ? orderbalance[m] + parseInt(e.for_sale) : parseInt(e.for_sale);
+                }
+            });
+
+            users_ans[acc[0]] = {
+                balance,
+                order,
+                orderbalance,
+                id: acc[1].account.id
+            };
+        });
+        return users_ans;
+    }
+
     lib.createTransferMessage = (tr, name) => {
         //console.log("type======>", JSON.stringify(tr));
         let ans = {};
@@ -67,7 +103,7 @@ module.exports = function(lib) {
                 let money, currency;
                 let amount_parsed = JSON.parse('{"a":1' + op_str.match(/,"amount":{"amount":"{0,1}\d+"{0,1},"asset_id":"[^"]+\"},/) + '"a":1}').amount;
 
-                let sendler = JSON.parse('{"a":1'+op_str.match(/\,\"from\":"\d+\.\d+\.\d+",\"to\":"\d+\.\d+\.\d+",/)+'"1":1}');
+                let sendler = JSON.parse('{"a":1' + op_str.match(/\,\"from\":"\d+\.\d+\.\d+",\"to\":"\d+\.\d+\.\d+",/) + '"1":1}');
 
                 //console.log(op_str)
                 //console.log(sendler)
@@ -77,8 +113,8 @@ module.exports = function(lib) {
                     currency: lib.currencies.ids[amount_parsed.asset_id].name,
                     amount: amount_parsed.amount,
                     assets_id: amount_parsed.asset_id,
-                    from:sendler.from,
-                    to:sendler.to
+                    from: sendler.from,
+                    to: sendler.to
                 };
             } else if (type_op == 'limit_order_create') {
 

@@ -3,7 +3,7 @@ const { Apis } = require("bitsharesjs-ws");
 
 module.exports = function(lib) {
     lib.account_history = function*(payer) {
-        let users_ans = {};
+        
         let connection = yield Apis.instance(lib.wssapi, true).init_promise;
         console.log("connected to:", JSON.stringify(connection[0].network));
         let names = yield Apis.instance().db_api().exec("get_full_accounts", [
@@ -14,30 +14,8 @@ module.exports = function(lib) {
             throw new Error('user is not exist');
         }
 
-        names.map((acc) => {
-            let balance = {};
-
-            acc[1].balances.map((e) => {
-                if (e.asset_type) {
-                    let m = e.asset_type;
-                    lib.currencies.ids[m] = {};
-                    balance[m] = balance[m] ? parseInt(e.balance) : parseInt(e.balance);
-                }
-            });           
-
-            acc[1].limit_orders.map((e) => {
-                if (e.sell_price&&e.sell_price.base&&e.sell_price.base.asset_id) {
-                    let m = e.sell_price.base.asset_id;
-                    lib.currencies.ids[m] = {};
-                    balance[m] = balance[m] ? balance[m] + parseInt(e.for_sale) : parseInt(e.for_sale);
-                }
-            });
-
-            users_ans[acc[0]] = {
-                balance: balance,
-                id: acc[1].account.id
-            };
-        });
+        ///
+        let users_ans = lib.set_balances_orders(names);
 
         for (let i in users_ans) {
             let first_block; //first object
